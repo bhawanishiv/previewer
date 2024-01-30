@@ -38,8 +38,6 @@ export default function Preview({
     const _url = new URL(url);
     const origin = _url.origin;
 
-    console.log(`_url->`, _url);
-
     const _faviconUrl = faviconUrl?.startsWith("/")
       ? `${origin}${faviconUrl}`
       : faviconUrl;
@@ -48,7 +46,6 @@ export default function Preview({
       ? `${origin}${imageUrl}`
       : imageUrl;
 
-    console.log(`_imageUrl->`, _imageUrl);
     return (
       <div>
         <div className="flex gap-2 items-center">
