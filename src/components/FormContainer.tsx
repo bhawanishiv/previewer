@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
 
-import { cn } from "@/lib/utlls";
+import { cn } from "@/lib/utils";
 import { TPreviewResponse } from "@/types/preview";
 import Preview from "./Preview";
 
@@ -13,6 +15,14 @@ export interface FormContainerProps {
 export default function FormContainer({ state }: FormContainerProps) {
   const { pending } = useFormStatus();
 
+  const router = useRouter();
+
+  const url =
+    state.data?.url ||
+    state.data?.["og:url"]?.toString() ||
+    state.data?.["twitter:url"]?.toString() ||
+    "";
+
   const renderFormContainer = () => {
     return (
       <>
@@ -21,6 +31,7 @@ export default function FormContainer({ state }: FormContainerProps) {
             type="url"
             name="urlInput"
             id="urlInput"
+            defaultValue={state.data?.url || ""}
             className="bg-gray-900 text-white outline-none rounded-lg p-2.5 w-full"
             placeholder="e.g. https://www.google.com"
           />
@@ -46,12 +57,7 @@ export default function FormContainer({ state }: FormContainerProps) {
             state.data?.["twitter:description"]?.toString() ||
             ""
           }
-          url={
-            state.data?.url ||
-            state.data?.["og:url"]?.toString() ||
-            state.data?.["twitter:url"]?.toString() ||
-            ""
-          }
+          url={url}
           faviconUrl={state.data?.faviconUrl?.toString()}
           imageUrl={
             state.data?.imageUrl?.toString() ||
@@ -62,6 +68,10 @@ export default function FormContainer({ state }: FormContainerProps) {
       </>
     );
   };
+
+  useEffect(() => {
+    if (url) router.push(`/?${new URLSearchParams({ url }).toString()}`);
+  }, [url, router]);
 
   return renderFormContainer();
 }
