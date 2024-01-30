@@ -1,12 +1,24 @@
-import Image from "next/image";
+"use client";
 
-import { submitPreview } from "./_actions/preview.actions";
+import { useFormState } from "react-dom";
+
+import { submitPreview } from "@/actions/preview.actions";
+
+import FormContainer from "@/components/FormContainer";
+import { TPreviewResponse } from "@/types/preview";
+
+const initialFormState: TPreviewResponse = { data: null };
 
 export default function Home() {
+  const [state, formAction] = useFormState(submitPreview, initialFormState);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     <form action={submitPreview}>
-        <input type="url" name="urlInput" id="urlInput" className="bg-black text-white border border-white"/>
+    <main className="flex flex-row sm:flex-col sm:justify-center sm:items-center min-h-screen p-4">
+      <form
+        action={formAction}
+        className="flex flex-col gap-8 sm:w-[600px] w-full"
+      >
+        <FormContainer state={state} />
       </form>
     </main>
   );
