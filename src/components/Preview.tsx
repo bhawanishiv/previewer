@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-
 import Link from "next/link";
 
 export interface PreviewProps {
@@ -9,6 +8,7 @@ export interface PreviewProps {
   imageUrl?: string | null;
   faviconUrl?: string | null;
   loading?: boolean;
+  copyUrl?: string;
 }
 
 export default function Preview({
@@ -45,6 +45,8 @@ export default function Preview({
     const _imageUrl = imageUrl?.startsWith("/")
       ? `${origin}${imageUrl}`
       : imageUrl;
+
+    console.log("after", { _imageUrl, _faviconUrl });
 
     return (
       <div>
