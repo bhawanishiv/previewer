@@ -12,6 +12,7 @@ export const submitPreview = async (
     const url = form.get("urlInput") as string;
     return preview(url);
   } catch (e) {
+    console.log(`e->`, e);
     return { data: null };
   }
 };
